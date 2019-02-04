@@ -1,5 +1,32 @@
-<html>
-<body>
-Hello World!
-</body>
-</html>
+{% extends "@OCBooking/layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Billetterie
+{% endblock %}
+{% block booking_body %}
+    <div class="container-fluid">
+            <h1 class="text-center display-4 mb-4">Bienvenue au Musée du Louvre</h1>
+            <p class="text-center lead">Espace Billetterie</p>
+        <hr>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="text-center display-4">Réveillez votre curosité !</h1>
+                <p class="text-center lead">
+                    Grâce a notre nouveau sytème de réservation en ligne, fini les files d'attente interminables !
+                </p>
+                <p class="lead text-center text-muted"> Pour commander vos billets, veuillez saisir une adresse e-mail pour continuer.</p>
+                <form method="POST">
+                    <div class="form-group text-center">
+                        <label for="Email">Adresse e-mail</label>
+                        <input type="email" class="form-control form-custom" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrez votre email ici" required>
+                        <small id="emailHelp" class="form-text text-muted">Veuillez rentrer l'adresse à laquelle seront envoyés les billets.</small>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
