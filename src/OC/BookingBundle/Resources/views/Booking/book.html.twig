@@ -1,0 +1,14 @@
+{% extends "@OCBooking/layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Réservation
+{% endblock %}
+{% block booking_body %}
+
+    <p> Bienvenue {{ order.id }}</p>
+    <p>Code de réservation : {{ order.bookingToken }}</p>
+    <p>Date de réservation : {{ order.bookingDate | date('d/m/Y') }}</p>
+    <p>Email renseigné : {{ order.email }}</p>
+
+{% endblock %}
+

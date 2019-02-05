@@ -2,11 +2,6 @@
     padding: 0;
 }
 
-
-body {
-    background-color: #FAFAFA ;
-}
-
 .margin {
     margin-bottom: 5rem;
 }
@@ -43,3 +38,13 @@ footer > span {
     text-align: center;
 }
 
+body#homep {
+    color: #FFFFFF;
+    background-image: url("../../web/img/wp.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.homep_box {
+    color: initial;
+}

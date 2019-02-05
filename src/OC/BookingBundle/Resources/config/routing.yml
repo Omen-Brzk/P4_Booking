@@ -1,3 +1,7 @@
 oc_booking_homepage:
     path:     /
     defaults: { _controller: OCBookingBundle:Default:index }
+
+oc_booking_recap:
+    path: /booking/{id}
+    defaults: { _controller: OCBookingBundle:Booking:book}
