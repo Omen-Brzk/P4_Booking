@@ -3,8 +3,10 @@
 namespace OC\BookingBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +18,8 @@ class BookingType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('email')
+        $builder
+            ->add('email')
             ->add('nb_tickets', ChoiceType::class,
                 [ 'choices' => [
                     '1' => 1,
@@ -26,8 +29,20 @@ class BookingType extends AbstractType
                     '5' => 5,
                 ], 'label' => 'Nombre de billets',
                 ])
-            ->add('visitDate', DateTimeType::class, array('widget' => 'single_text', 'label' => 'Date de visite', 'format' => 'yyyy-MM-dd'))
-            ->add('submit', SubmitType::class, array('label' => 'Valider'));
+            ->add('visitDate', DateTimeType::class, array(
+                'widget' => 'single_text',
+                'label' => 'Date de visite',
+                ))
+            ->add('visitType', ChoiceType::class, array(
+                'placeholder' => 'Veuillez choisir votre type de billet',
+                'choices' => array(
+                    'Demi-journée' => 0,
+                    'Journée' => 1,
+                ),
+                'label' => 'Type de billet',
+            ))
+            ->add('submit', SubmitType::class, array(
+                'label' => 'Valider'));
     }/**
      * {@inheritdoc}
      */

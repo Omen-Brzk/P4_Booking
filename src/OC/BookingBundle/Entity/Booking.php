@@ -15,7 +15,7 @@ class Booking
     public function __construct()
     {
         $this->bookingDate =  new \DateTime();
-        $this->visitDate = $this->getVisitDate();
+        $this->visitDate = new \DateTime();
         $this->bookingToken = $this->generateToken(25);
         $this->nbTickets = $this->getNbTickets();
     }
@@ -52,7 +52,7 @@ class Booking
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="bookingDate", type="date")
+     * @ORM\Column(name="bookingDate", type="datetime")
      */
     private $bookingDate;
 
@@ -60,7 +60,7 @@ class Booking
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="visitDate", type="date")
+     * @ORM\Column(name="visitDate", type="datetime")
      */
     private $visitDate;
 
@@ -71,6 +71,14 @@ class Booking
      * @ORM\Column(name="nbTickets", type="integer")
      */
     private $nbTickets;
+
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="visitType", type="boolean")
+     */
+    private $visitType;
 
 
     /**
@@ -134,7 +142,7 @@ class Booking
     /**
      * Set bookingDate.
      *
-     * @param \DateTime $bookingDate
+     * @param $bookingDate
      *
      * @return Booking
      */
@@ -198,7 +206,7 @@ class Booking
      *
      * @return Booking
      */
-    public function setVisitDate($visitDate)
+    public function setVisitDate(\DateTime $visitDate)
     {
         $this->visitDate = $visitDate;
 
@@ -213,5 +221,29 @@ class Booking
     public function getVisitDate()
     {
         return $this->visitDate;
+    }
+
+    /**
+     * Set visitType.
+     *
+     * @param bool $visitType
+     *
+     * @return Booking
+     */
+    public function setVisitType($visitType)
+    {
+        $this->visitType = $visitType;
+
+        return $this;
+    }
+
+    /**
+     * Get visitType.
+     *
+     * @return bool
+     */
+    public function getVisitType()
+    {
+        return $this->visitType;
     }
 }

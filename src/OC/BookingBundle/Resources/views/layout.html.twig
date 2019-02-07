@@ -34,8 +34,8 @@
 
         {% block footer %}
             <footer class="footer">
-                <span>
-                    Musée du Louvre © 2019
+                <span class="text-center">
+                    Musée du Louvre © 2019 | Propulsé par Symfony 3.4 - Bootstrap - Stripe
                 </span>
             </footer>
         {% endblock %}
@@ -53,11 +53,15 @@
               let dateVisite = $('#oc_bookingbundle_booking_visitDate');
               if(document.getElementById('oc_bookingbundle_booking_visitDate')) {
                  dateVisite.flatpickr({
-                      locale: "fr",
+                     locale: "fr",
                      altInput: true,
-                     altFormat: "d-m-Y",
-                     defaultDate: "today",
+                     enableTime: true,
+                     time_24hr: true,
                      minDate: 'today',
+                     altFormat: "d-m-Y à H:i",
+                     defaultDate: "today",
+                     defaultHour: new Date().getHours(),
+                     defaultMinute: new Date().getMinutes(),
                      "disable":
                          [
                          function (date) {
@@ -65,6 +69,22 @@
                          }
                      ],
                   });
+              }
+
+              let dateVisit = dateVisite.val();
+              console.log(dateVisit);
+              let newDate = new Date();
+              console.log(newDate);
+              let visitTypeField = $('#oc_bookingbundle_booking_visitType');
+
+              if (dateVisit >= 14)
+              {
+                  visitTypeField.val(0);
+                      visitTypeField.attr('disabled', true);
+              }
+              else {
+                  visitTypeField.val(1);
+                      visitTypeField.attr('disabled', false);
               }
            });
         </script>

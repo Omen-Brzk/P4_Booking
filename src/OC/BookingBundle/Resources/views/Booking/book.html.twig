@@ -6,8 +6,8 @@
 <div class="container-fluid">
     <p> Bienvenue {{ order.id }}</p>
     <p>Code de réservation : {{ order.bookingToken }}</p>
-    <p>Date de réservation : {{ order.bookingDate | date('d/m/Y') }}</p>
-    <p>Date de la visite : {{ order.visitDate| date('d/m/Y') }}</p>
+    <p>Date de réservation : Le {{ order.bookingDate | date('d/m/Y') }}</p>
+    <p>Date de la visite : {{ order.visitDate| date('d/m/Y à H:i') }}</p>
     <p>Email renseigné : {{ order.email }}</p>
     <p>Nombre de tickets : {{ order.nbTickets }}</p>
 
