@@ -1,14 +1,28 @@
 {% extends "@OCBooking/layout.html.twig" %}
-
 {% block title %}
     {{ parent() }} - Réservation
 {% endblock %}
 {% block booking_body %}
-
+<div class="container-fluid">
     <p> Bienvenue {{ order.id }}</p>
     <p>Code de réservation : {{ order.bookingToken }}</p>
     <p>Date de réservation : {{ order.bookingDate | date('d/m/Y') }}</p>
+    <p>Date de la visite : {{ order.visitDate| date('d/m/Y') }}</p>
     <p>Email renseigné : {{ order.email }}</p>
+    <p>Nombre de tickets : {{ order.nbTickets }}</p>
+
+
+
+    {% for i in 1..order.nbTickets %}
+    <div class="form-group">
+        <div>
+            <p>Ticket n°{{ i }}</p>
+             {{ form(form) }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
 
 {% endblock %}
 

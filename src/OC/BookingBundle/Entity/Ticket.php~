@@ -1,0 +1,191 @@
+<?php
+
+namespace OC\BookingBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Ticket
+ * @ORM\Table(name="ticket")
+ * @ORM\Entity(repositoryClass="OC\BookingBundle\Repository\TicketRepository")
+ */
+class Ticket
+{
+    /**
+     * @var
+     */
+    private $booking;
+
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var int
+     */
+    private $bookingId;
+
+    /**
+     * @var string
+     */
+    private $value;
+
+    /**
+     * @var int
+     */
+    private $price;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $lastname;
+
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set bookingId.
+     *
+     * @param int $bookingId
+     *
+     * @return Ticket
+     */
+    public function setBookingId($bookingId)
+    {
+        $this->bookingId = $bookingId;
+
+        return $this;
+    }
+
+    /**
+     * Get bookingId.
+     *
+     * @return int
+     */
+    public function getBookingId()
+    {
+        return $this->bookingId;
+    }
+
+    /**
+     * Set value.
+     *
+     * @param string $value
+     *
+     * @return Ticket
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value.
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set price.
+     *
+     * @param int $price
+     *
+     * @return Ticket
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price.
+     *
+     * @return int
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Ticket
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set lastname.
+     *
+     * @param string $lastname
+     *
+     * @return Ticket
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname.
+     *
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    public function getBooking()
+    {
+        return $this->booking;
+    }
+
+    public function setBooking(Booking $booking)
+    {
+        $this->booking = $booking;
+
+        return $this;
+    }
+}

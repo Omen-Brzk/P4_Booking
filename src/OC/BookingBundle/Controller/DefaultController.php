@@ -3,7 +3,10 @@
 namespace OC\BookingBundle\Controller;
 
 use OC\BookingBundle\Entity\Booking;
+use OC\BookingBundle\Form\BookingType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,12 +19,7 @@ class DefaultController extends Controller
     {
         $booking = new Booking();
 
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $booking);
-
-        $formBuilder->add('email', EmailType::class, array('required' => true))
-            ->add('Valider', SubmitType::class);
-
-        $form = $formBuilder->getForm();
+        $form = $this->get('form.factory')->create(BookingType::class, $booking);
 
         if($request->isMethod('POST')){
             $form->handleRequest($request);
@@ -31,7 +29,6 @@ class DefaultController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($booking);
                 $em->flush();
-
                 return $this->redirectToRoute('oc_booking_recap', array('id' => $booking->getId()));
             }
         }
