@@ -8,9 +8,8 @@
 
 namespace OC\BookingBundle\Controller;
 
-use OC\BookingBundle\Entity\Booking;
-use OC\BookingBundle\Entity\Ticket;
-use OC\BookingBundle\Form\TicketType;
+use OC\BookingBundle\Entity\Reservation;
+use OC\BookingBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,10 +21,13 @@ class BookingController extends Controller {
             ->getManager()
             ->getRepository('OCBookingBundle:Booking')
             ->find($id);
+        $reservation = new Reservation();
 
-        $ticket = new Ticket();
 
-        $form = $this->get('form.factory')->create(TicketType::class, $ticket);
+        for ($i=1; $i<$booking->getNbTickets();$i++)
+        {
+            $form = $this->createForm(ReservationType::class, $reservation);
+        }
 
         return $this->render('@OCBooking/Booking/book.html.twig', array(
             'id' => $id,

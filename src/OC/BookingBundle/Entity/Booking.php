@@ -17,6 +17,7 @@ class Booking
         $this->bookingDate =  new \DateTime();
         $this->visitDate = new \DateTime();
         $this->bookingToken = $this->generateToken(25);
+        $this->visitType = $this->getVisitType();
         $this->nbTickets = $this->getNbTickets();
     }
 

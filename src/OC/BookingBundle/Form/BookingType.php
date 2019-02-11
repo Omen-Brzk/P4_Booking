@@ -36,8 +36,8 @@ class BookingType extends AbstractType
             ->add('visitType', ChoiceType::class, array(
                 'placeholder' => 'Veuillez choisir votre type de billet',
                 'choices' => array(
-                    'Demi-journée' => 0,
-                    'Journée' => 1,
+                    'Demi-journée (à partir de 14h00)' => 0,
+                    'Journée (à partir de 09h00)' => 1,
                 ),
                 'label' => 'Type de billet',
             ))

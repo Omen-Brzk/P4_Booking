@@ -48,3 +48,7 @@ body#homep {
 .homep_box {
     color: initial;
 }
+
+select[disabled] {
+    pointer-events: none;
+}

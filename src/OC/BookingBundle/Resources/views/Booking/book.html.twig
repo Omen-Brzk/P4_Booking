@@ -11,16 +11,18 @@
     <p>Email renseigné : {{ order.email }}</p>
     <p>Nombre de tickets : {{ order.nbTickets }}</p>
 
-
-
+    {{ form_start(form) }}
     {% for i in 1..order.nbTickets %}
     <div class="form-group">
         <div>
             <p>Ticket n°{{ i }}</p>
-             {{ form(form) }}
+                {{ form_start(form) }}
+                {{ form_row(form.tickets.vars.prototype) }}
+                {{ form_end(form) }}
         </div>
     </div>
     {% endfor %}
+    {{ form_end(form) }}
 </div>
 
 

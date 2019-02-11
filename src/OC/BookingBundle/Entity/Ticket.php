@@ -2,6 +2,7 @@
 
 namespace OC\BookingBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,27 +52,27 @@ class Ticket
      */
     private $age;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="type", type="smallint", unique=true)
-     */
-    private $type;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="price", type="decimal", precision=2, scale=0, unique=true)
+     * @ORM\Column(name="country", type="string")
      */
-    private $price;
+    private $country;
+
 
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="booking", type="string", length=255)
+     * @ORM\Column(name="reducPrice", type="boolean")
      */
-    private $booking;
+    private $reducPrice;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="tickets", cascade={"persist"})
+     * @ORM\JoinColumn(name="bookingId", referencedColumnName="id")
+     */
+    private $reservation;
 
     /**
      * Get id.
@@ -180,74 +181,74 @@ class Ticket
     }
 
     /**
-     * Set type.
+     * Set country.
      *
-     * @param int $type
+     * @param string $country
      *
      * @return Ticket
      */
-    public function setType($type)
+    public function setCountry($country)
     {
-        $this->type = $type;
+        $this->country = $country;
 
         return $this;
     }
 
     /**
-     * Get type.
-     *
-     * @return int
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set price.
-     *
-     * @param string $price
-     *
-     * @return Ticket
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price.
+     * Get country.
      *
      * @return string
      */
-    public function getPrice()
+    public function getCountry()
     {
-        return $this->price;
+        return $this->country;
     }
 
     /**
-     * Set booking.
+     * Set reducPrice.
      *
-     * @param string $booking
+     * @param bool $reducPrice
      *
      * @return Ticket
      */
-    public function setBooking(Booking $booking)
+    public function setReducPrice($reducPrice)
     {
-        $this->booking = $booking;
+        $this->reducPrice = $reducPrice;
 
         return $this;
     }
 
     /**
-     * Get booking.
+     * Get reducPrice.
      *
-     * @return string
+     * @return bool
      */
-    public function getBooking()
+    public function getReducPrice()
     {
-        return $this->booking;
+        return $this->reducPrice;
+    }
+
+    /**
+     * Set reservation.
+     *
+     * @param \OC\BookingBundle\Entity\Reservation|null $reservation
+     *
+     * @return Ticket
+     */
+    public function setReservation(\OC\BookingBundle\Entity\Reservation $reservation = null)
+    {
+        $this->reservation = $reservation;
+
+        return $this;
+    }
+
+    /**
+     * Get reservation.
+     *
+     * @return \OC\BookingBundle\Entity\Reservation|null
+     */
+    public function getReservation()
+    {
+        return $this->reservation;
     }
 }
