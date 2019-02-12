@@ -21,20 +21,18 @@ class BookingController extends Controller {
             ->getManager()
             ->getRepository('OCBookingBundle:Booking')
             ->find($id);
-        $reservation = new Reservation();
 
-
-        for ($i=1; $i<$booking->getNbTickets();$i++)
-        {
-            $form = $this->createForm(ReservationType::class, $reservation);
-        }
+        $ticketForm = $this->createTicketForm();
 
         return $this->render('@OCBooking/Booking/book.html.twig', array(
             'id' => $id,
             'order' => $booking,
-            'form' => $form->createView(),
+            'ticketForm' => $ticketForm
         ));
+    }
 
-
+    private function createTicketForm()
+    {
+        return $this->createForm(ReservationType::class, null);
     }
 }

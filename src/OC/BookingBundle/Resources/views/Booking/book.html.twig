@@ -11,18 +11,20 @@
     <p>Email renseigné : {{ order.email }}</p>
     <p>Nombre de tickets : {{ order.nbTickets }}</p>
 
-    {{ form_start(form) }}
+
     {% for i in 1..order.nbTickets %}
+        {% set form = ticketForm.createView %}
     <div class="form-group">
-        <div>
+        <div class="shadow-lg p-3 mb-5 bg-white rounded">
             <p>Ticket n°{{ i }}</p>
                 {{ form_start(form) }}
                 {{ form_row(form.tickets.vars.prototype) }}
                 {{ form_end(form) }}
         </div>
     </div>
+        <hr>
     {% endfor %}
-    {{ form_end(form) }}
+
 </div>
 
 
