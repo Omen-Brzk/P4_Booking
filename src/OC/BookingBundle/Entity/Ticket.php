@@ -23,13 +23,17 @@ class Ticket
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Booking", inversedBy="details", cascade={"persist"})
+     *@ORM\JoinColumn(name="bookingId", referencedColumnName="id")
+     */
+    private $booking;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="bookingId", type="integer")
-     * @ORM\ManyToOne(targetEntity="Booking", cascade={"persist"})
-     * @ORM\JoinColumn(name="bookingId", referencedColumnName="id")
      */
-    private $bookingId;
+    private $bookingId = 0;
 
     /**
      * @var string
@@ -46,11 +50,10 @@ class Ticket
     private $lastname;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="age", type="integer", unique=true)
+     * @var \DateTime
+     * @ORM\Column(name="birthdayDate", type="date")
      */
-    private $age;
+    private $birthdayDate;
 
 
     /**
@@ -67,12 +70,6 @@ class Ticket
      * @ORM\Column(name="reducPrice", type="boolean")
      */
     private $reducPrice;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="tickets", cascade={"persist"})
-     * @ORM\JoinColumn(name="bookingId", referencedColumnName="id")
-     */
-    private $reservation;
 
     /**
      * Get id.
@@ -157,30 +154,6 @@ class Ticket
     }
 
     /**
-     * Set age.
-     *
-     * @param int $age
-     *
-     * @return Ticket
-     */
-    public function setAge($age)
-    {
-        $this->age = $age;
-
-        return $this;
-    }
-
-    /**
-     * Get age.
-     *
-     * @return int
-     */
-    public function getAge()
-    {
-        return $this->age;
-    }
-
-    /**
      * Set country.
      *
      * @param string $country
@@ -229,26 +202,50 @@ class Ticket
     }
 
     /**
-     * Set reservation.
+     * Set birthdayDate.
      *
-     * @param \OC\BookingBundle\Entity\Reservation|null $reservation
+     * @param \DateTime $birthdayDate
      *
      * @return Ticket
      */
-    public function setReservation(\OC\BookingBundle\Entity\Reservation $reservation = null)
+    public function setBirthdayDate($birthdayDate)
     {
-        $this->reservation = $reservation;
+        $this->birthdayDate = $birthdayDate;
 
         return $this;
     }
 
     /**
-     * Get reservation.
+     * Get birthdayDate.
      *
-     * @return \OC\BookingBundle\Entity\Reservation|null
+     * @return \DateTime
      */
-    public function getReservation()
+    public function getBirthdayDate()
     {
-        return $this->reservation;
+        return $this->birthdayDate;
+    }
+
+    /**
+     * Set booking.
+     *
+     * @param \OC\BookingBundle\Entity\Booking|null $booking
+     *
+     * @return Ticket
+     */
+    public function setBooking(\OC\BookingBundle\Entity\Booking $booking = null)
+    {
+        $this->booking = $booking;
+
+        return $this;
+    }
+
+    /**
+     * Get booking.
+     *
+     * @return \OC\BookingBundle\Entity\Booking|null
+     */
+    public function getBooking()
+    {
+        return $this->booking;
     }
 }
