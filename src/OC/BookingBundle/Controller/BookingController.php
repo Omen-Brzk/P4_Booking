@@ -11,6 +11,7 @@ namespace OC\BookingBundle\Controller;
 use OC\BookingBundle\Entity\Ticket;
 use OC\BookingBundle\Form\TicketType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
 
 class BookingController extends Controller {
@@ -22,34 +23,64 @@ class BookingController extends Controller {
             ->getRepository('OCBookingBundle:Booking')
             ->findOneById($id);
 
-        $ticket = new Ticket();
+        $ticketsLimit = $booking->getNbTickets();
 
-        $ticketForm = $this->createTicketForm($ticket);
+        $clientTickets = [
+            'tickets' => [
+                []
+            ]
+        ];
+
+        for ($i=1; $i<$ticketsLimit;$i++)
+        {
+
+            $x =  [
+                'field1', 'firstname',
+                'field2', 'lastname',
+                'field3', 'birthdayDate',
+                'field4', 'country',
+                'field5', 'reducPrice'
+            ];
+
+            array_push($clientTickets['tickets'], $x);
+        }
 
 
-        if($request->isMethod('POST')){
+        $ticketForm = $this->createFormBuilder($clientTickets)
+            ->add('tickets', CollectionType::class, array('entry_type' =>  TicketType::class))
+            ->getForm();
 
+        if($request->isMethod('POST'))
+        {
             $ticketForm->handleRequest($request);
 
             if($ticketForm->isSubmitted() && $ticketForm->isValid())
             {
-                $ticket->setBooking($booking);
+                $datas = $ticketForm->getData();
+
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($ticket);
-                $em->flush();
-                return $this->redirectToRoute('oc_booking_recap', array('id' => $booking->getId()));
+
+                foreach ($datas['tickets'] as $data) {
+                    $ticket = new Ticket();
+                    $ticket->setBooking($booking);
+                    $ticket->setFirstname($data["firstname"]);
+                    $ticket->setLastname($data["lastname"]);
+                    $ticket->setBirthdayDate($data["birthdayDate"]);
+                    $ticket->setCountry($data["country"]);
+                    $ticket->setReducPrice($data["reducPrice"]);
+                    $em->persist($ticket);
+                    $em->flush();
+                }
+                $em->clear();
             }
         }
 
+
         return $this->render('@OCBooking/Booking/book.html.twig', array(
             'id' => $id,
-            'order' => $booking,
-            'ticketForm' => $ticketForm
+            'form' => $ticketForm->createView(),
+            'order' => $booking
         ));
-    }
 
-    private function createTicketForm($ticket)
-    {
-        return $this->get('form.factory')->create(TicketType::class, $ticket);
     }
 }

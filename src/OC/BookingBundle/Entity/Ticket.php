@@ -13,6 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Ticket
 {
+    public function __construct()
+    {
+        $this->booking = $this->getBooking();
+        $this->firstname = $this->getFirstname();
+        $this->lastname = $this->getLastname();
+        $this->birthdayDate = $this->getBirthdayDate();
+        $this->country = $this->getCountry();
+        $this->reducPrice = $this->getReducPrice();
+    }
+
     /**
      * @var int
      *

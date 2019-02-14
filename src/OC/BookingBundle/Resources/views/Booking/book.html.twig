@@ -2,82 +2,87 @@
 {% block title %}
     {{ parent() }} - Réservation
 {% endblock %}
-{% block booking_body %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="d-block p-2 bg-primary text-white">Votre réservation</div>
-                <div class="card-body">
-                    <p> Identifiant de réservation #{{ order.id }}</p>
-                    <p>Code de réservation : {{ order.bookingToken }}</p>
-                    <p>Date de réservation : Le {{ order.bookingDate | date('d/m/Y') }}</p>
-                    <p>Date de la visite : {{ order.visitDate| date('d/m/Y à H:i') }}</p>
-                    <p>Email renseigné : {{ order.email }}</p>
-                    <p>Nombre de tickets : {{ order.nbTickets }}</p>
-                    <p>Type de réservation : {% if order.visitType == false %}
-                            {{ 'billet Demi-Journée' }}
-                        {% else %}
-                            {{ 'billet Journée' }}
-                        {% endif %}</p>
+    {% block booking_body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="d-block p-2 bg-primary text-white">Votre réservation</div>
+                    <div class="card-body">
+                        <p> Identifiant de réservation #{{ order.id }}</p>
+                        <p>Code de réservation : {{ order.bookingToken }}</p>
+                        <p>Date de réservation : Le {{ order.bookingDate | date('d/m/Y') }}</p>
+                        <p>Date de la visite : {{ order.visitDate| date('d/m/Y à H:i') }}</p>
+                        <p>Email renseigné : {{ order.email }}</p>
+                        <p>Nombre de tickets : {{ order.nbTickets }}</p>
+                        <p>Type de réservation : {% if order.visitType == false %}
+                                {{ 'billet Demi-Journée' }}
+                            {% else %}
+                                {{ 'billet Journée' }}
+                            {% endif %}</p>
+                    </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-title p-2 bg-dark text-white">Tarifs</div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Normal</th>
+                                    <th scope="col">Enfant*</th>
+                                    <th scope="col">Senior</th>
+                                    <th scope="col">Réduit**</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Demi-Journée</th>
+                                    <td>8€</td>
+                                    <td>4€</td>
+                                    <td>6€</td>
+                                    <td>5€</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Journée</th>
+                                    <td>16€</td>
+                                    <td>8€</td>
+                                    <td>12€</td>
+                                    <td>10€</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-muted">* L'entrée est gratuite pour les enfants de moins de 4 ans.</p>
+                            <p class="text-muted">** Accordé sous présentation d'une carte type (étudiant, employé du musée, employé au Ministère de la Culture, militaire)</p>
+                        </div>
+                </div>
+            </div>
+
         </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-title p-2 bg-dark text-white">Tarifs</div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Normal</th>
-                                <th scope="col">Enfant*</th>
-                                <th scope="col">Senior</th>
-                                <th scope="col">Réduit**</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">Demi-Journée</th>
-                                <td>8€</td>
-                                <td>4€</td>
-                                <td>6€</td>
-                                <td>5€</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Journée</th>
-                                <td>16€</td>
-                                <td>8€</td>
-                                <td>12€</td>
-                                <td>10€</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <p class="text-muted">* L'entrée est gratuite pour les enfants de moins de 4 ans.</p>
-                        <p class="text-muted">** Accordé sous présentation d'une carte type (étudiant, employé du musée, employé au Ministère de la Culture, militaire)</p>
-                    </div>
+
+
+        {{ form_start(form) }}
+        {% for clientTicket in form.tickets%}
+
+        <div class="form-group">
+            <div class="shadow-lg p-3 mb-5 bg-white rounded">
+                {{ form_row(clientTicket.firstname) }}
+                {{ form_row(clientTicket.lastname) }}
+                {{ form_row(clientTicket.birthdayDate) }}
+                {{ form_row(clientTicket.country) }}
+                {{ form_row(clientTicket.reducPrice) }}
             </div>
         </div>
-
-    </div>
-
-
-
-    {% for i in 1..order.nbTickets %}
-        {% set form = ticketForm.createView %}
-    <div class="form-group">
-        <div class="shadow-lg p-3 mb-5 bg-white rounded">
-            <p>Ticket n°{{ i }}</p>
-                {{ form_start(form) }}
-                {{ form_end(form) }}
+            <hr>
+        {% endfor %}
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Valider</button>
         </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+
     </div>
-        <hr>
-    {% endfor %}
-
-</div>
-
-
-{% endblock %}
+    {% endblock %}
 
