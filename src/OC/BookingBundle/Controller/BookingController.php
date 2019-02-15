@@ -73,6 +73,10 @@ class BookingController extends Controller {
                 }
                 $em->clear();
             }
+
+            return $this->redirectToRoute('oc_booking_checkout', array(
+                'id' => $id
+            ));
         }
 
 
@@ -82,5 +86,24 @@ class BookingController extends Controller {
             'order' => $booking
         ));
 
+    }
+
+    public function checkoutAction($id, Request $request)
+    {
+        $booking = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('OCBookingBundle:Booking')
+            ->findOneById($id);
+
+        $tickets = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('OCBookingBundle:Ticket')
+            ->findByBookingId($id);
+
+        return $this->render('@OCBooking/Booking/checkout.html.twig', array(
+            'id' => $id,
+            'order' => $booking,
+            'tickets' => $tickets
+        ));
     }
 }
