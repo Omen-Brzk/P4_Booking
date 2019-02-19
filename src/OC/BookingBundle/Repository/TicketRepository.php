@@ -10,4 +10,17 @@ namespace OC\BookingBundle\Repository;
  */
 class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function myFinder($bookingId){
+        $qb = $this->createQueryBuilder('t');
+
+        $qb->where('t.bookingId = :bookingId')
+            ->setParameter('bookingId', $bookingId)
+            ->orderBy('t.id', 'ASC')
+            ;
+
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

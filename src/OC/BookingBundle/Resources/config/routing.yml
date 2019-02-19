@@ -5,7 +5,11 @@ oc_booking_homepage:
 oc_booking_recap:
     path: /order/{id}
     defaults: { _controller: OCBookingBundle:Booking:book}
+    requirements:
+      id: \d+
 
 oc_booking_checkout:
     path: /checkout/{id}
     defaults: { _controller: OCBookingBundle:Booking:checkout}
+    requirements:
+      id: \d+

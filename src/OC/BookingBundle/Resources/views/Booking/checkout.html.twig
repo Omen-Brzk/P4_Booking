@@ -24,16 +24,41 @@
 
 
         <div class="card">
-            <div class="d-block p-2 bg-dark text-white">Tickets réservés</div>
+            <div class="d-block p-2 bg-dark text-white">{% if tickets|length > 1 %}Tickets réservés
+            {% else %}
+            Ticket réservé
+            {% endif %}</div>
             <div class="card-body">
+                <table class="table-bordered table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Date de naissance</th>
+                        <th scope="col">Nationalité</th>
+                        <th scope="col">Tarif réduit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                 {% for ticket in tickets %}
-                    {{ ticket.firstname }}
-                    {{ ticket.lastname }}
-                    {{ ticket.birthdayDate| date('d/m/Y') }}
-                    {{ ticket.country }}
-                    {{ ticket.reducPrice }}
+                    <tr>
+                        <td>{{ ticket.lastname }}</td>
+                        <td>{{ ticket.firstname }}</td>
+                        <td id="oc_bookingbundle_birthdayDate">{{ ticket.birthdayDate| date('d/m/Y') }}</td>
+                        <td>{{ ticket.country }}</td>
+                        <td id="reducPrice">{% if ticket.reducPrice == false %}{{ 'Non' }}
+                        {% else %}
+                            {{ 'Oui' }}
+                        {% endif %}</td>
+                    </tr>
                 {% endfor %}
+                    </tbody>
+                </table>
             </div>
+        </div>
+
+        <div class="text-center">
+            <p id="order_total" class="lead">Montant total de votre commande : {{ total }} €</p>
         </div>
     </div>
 {% endblock %}

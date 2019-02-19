@@ -35,8 +35,8 @@ class BookingController extends Controller {
         {
 
             $x =  [
-                'field1', 'firstname',
-                'field2', 'lastname',
+                'field1', 'lastname',
+                'field2', 'firstname',
                 'field3', 'birthdayDate',
                 'field4', 'country',
                 'field5', 'reducPrice'
@@ -95,15 +95,38 @@ class BookingController extends Controller {
             ->getRepository('OCBookingBundle:Booking')
             ->findOneById($id);
 
-        $tickets = $this->getDoctrine()
+
+
+         $tickets = $this->getDoctrine()
             ->getManager()
             ->getRepository('OCBookingBundle:Ticket')
-            ->findByBookingId($id);
+            ->myFinder($id);
+
+         //var_dump($tickets);
+
+        $nbTickets = $booking->getNbTickets();
+        $service = $this->container->get('oc_bookingbundle.handler');
+
+        foreach ($tickets as $ticket)
+        {
+            for($i=0; $i<$nbTickets; $i++)
+            {
+                $dateTicket = $ticket->getBirthdayDate();
+                $dateFormated = $dateTicket->format('Y');
+
+                $type = $ticket->getBooking()->getVisitType();
+
+                $reducPrice = $ticket->getReducPrice();
+
+               $total = $service->handleBill($dateFormated, $type, $reducPrice);
+            }
+        }
 
         return $this->render('@OCBooking/Booking/checkout.html.twig', array(
             'id' => $id,
             'order' => $booking,
-            'tickets' => $tickets
+            'tickets' => $tickets,
+            'total' => $total
         ));
     }
 }
