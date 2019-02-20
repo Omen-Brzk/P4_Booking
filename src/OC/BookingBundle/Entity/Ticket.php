@@ -21,6 +21,7 @@ class Ticket
         $this->birthdayDate = $this->getBirthdayDate();
         $this->country = $this->getCountry();
         $this->reducPrice = $this->getReducPrice();
+        $this->price = $this->getPrice();
     }
 
     /**
@@ -80,6 +81,12 @@ class Ticket
      * @ORM\Column(name="reducPrice", type="boolean")
      */
     private $reducPrice;
+
+    /**
+     * @var int
+     * @ORM\Column(name="price", type="integer")
+     */
+    private $price;
 
     /**
      * Get id.
@@ -257,5 +264,29 @@ class Ticket
     public function getBooking()
     {
         return $this->booking;
+    }
+
+    /**
+     * Set price.
+     *
+     * @param int $price
+     *
+     * @return Ticket
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price.
+     *
+     * @return int
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 }

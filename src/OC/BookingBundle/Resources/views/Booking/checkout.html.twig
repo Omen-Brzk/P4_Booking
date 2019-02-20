@@ -37,6 +37,7 @@
                         <th scope="col">Date de naissance</th>
                         <th scope="col">Nationalité</th>
                         <th scope="col">Tarif réduit</th>
+                        <th scope="col">Prix</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,6 +51,7 @@
                         {% else %}
                             {{ 'Oui' }}
                         {% endif %}</td>
+                        <td>{{ ticket.price }} €</td>
                     </tr>
                 {% endfor %}
                     </tbody>
@@ -58,7 +60,11 @@
         </div>
 
         <div class="text-center">
-            <p id="order_total" class="lead">Montant total de votre commande : {{ total }} €</p>
+            {% set total = 0 %}
+            {% for ticket in tickets %}
+            {% set total = total + ticket.price %}
+            {% endfor %}
+            <p id="order_total" class="lead">Montant total de votre commande :  {{ total }} €</p>
         </div>
     </div>
 {% endblock %}

@@ -59,6 +59,8 @@ class BookingController extends Controller {
                 $datas = $ticketForm->getData();
 
                 $em = $this->getDoctrine()->getManager();
+                $service = $this->container->get('oc_bookingbundle.handler');
+
 
                 foreach ($datas['tickets'] as $data) {
                     $ticket = new Ticket();
@@ -68,6 +70,10 @@ class BookingController extends Controller {
                     $ticket->setBirthdayDate($data["birthdayDate"]);
                     $ticket->setCountry($data["country"]);
                     $ticket->setReducPrice($data["reducPrice"]);
+                    $ticket->setPrice($service->handleBill(
+                        $ticket->getBirthdayDate()->format('Y'),
+                        $ticket->getBooking()->getVisitType(),
+                        $ticket->getReducPrice()));
                     $em->persist($ticket);
                     $em->flush();
                 }
@@ -102,31 +108,11 @@ class BookingController extends Controller {
             ->getRepository('OCBookingBundle:Ticket')
             ->myFinder($id);
 
-         //var_dump($tickets);
-
-        $nbTickets = $booking->getNbTickets();
-        $service = $this->container->get('oc_bookingbundle.handler');
-
-        foreach ($tickets as $ticket)
-        {
-            for($i=0; $i<$nbTickets; $i++)
-            {
-                $dateTicket = $ticket->getBirthdayDate();
-                $dateFormated = $dateTicket->format('Y');
-
-                $type = $ticket->getBooking()->getVisitType();
-
-                $reducPrice = $ticket->getReducPrice();
-
-               $total = $service->handleBill($dateFormated, $type, $reducPrice);
-            }
-        }
 
         return $this->render('@OCBooking/Booking/checkout.html.twig', array(
             'id' => $id,
             'order' => $booking,
             'tickets' => $tickets,
-            'total' => $total
         ));
     }
 }
