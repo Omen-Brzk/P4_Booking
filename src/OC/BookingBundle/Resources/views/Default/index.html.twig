@@ -10,6 +10,9 @@
             <p class="text-center lead">Espace Billetterie</p>
         <hr>
         <div class="jumbotron jumbotron-fluid homep_box">
+            {% for message in app.session.flashbag.get('error_id') %}
+                <div class="text-center alert alert-danger container">{{ message }}</div>
+            {% endfor %}
             <div class="container">
                 <h1 class="text-center display-4">Réveillez votre curiosité !</h1>
                 <p class="text-center lead">

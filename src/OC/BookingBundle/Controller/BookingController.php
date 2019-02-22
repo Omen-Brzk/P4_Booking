@@ -23,6 +23,13 @@ class BookingController extends Controller {
             ->getRepository('OCBookingBundle:Booking')
             ->findOneById($id);
 
+        if (is_null($booking))
+        {
+            $session = $request->getSession();
+            $session->getFlashBag()->add('error_id', 'La commande que vous avez demandé n\' à pas été trouvée.');
+            return $this->redirectToRoute('oc_booking_homepage');
+        }
+
         $ticketsLimit = $booking->getNbTickets();
 
         $clientTickets = [
@@ -101,7 +108,12 @@ class BookingController extends Controller {
             ->getRepository('OCBookingBundle:Booking')
             ->findOneById($id);
 
-
+        if (is_null($booking))
+        {
+            $session = $request->getSession();
+            $session->getFlashBag()->add('error_id', 'La commande que vous avez demandé n\' à pas été trouvée.');
+            return $this->redirectToRoute('oc_booking_homepage');
+        }
 
          $tickets = $this->getDoctrine()
             ->getManager()
