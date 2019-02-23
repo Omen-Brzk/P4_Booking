@@ -59,13 +59,30 @@
             </div>
         </div>
 
-        <div class="text-center">
-            {% set total = 0 %}
-            {% for ticket in tickets %}
-            {% set total = total + ticket.price %}
-            {% endfor %}
-            <p id="order_total" class="lead">Montant total de votre commande :  {{ total }} €</p>
+
+
+        <div class="text-center card">
+            <div class="text-center">
+                {% set total = 0 %}
+                {% for ticket in tickets %}
+                    {% set total = total + ticket.price %}
+                {% endfor %}
+                <p id="order_total" class="lead">Montant total de votre commande :  {{ total }} €</p>
+            </div>
+            <form action="" method="POST">
+                <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="pk_test_7lbBCuu8smUAHzN42c0rwM1e"
+                        data-amount="{{ total * 100 }}"
+                        data-label="Payer {{ total }} €"
+                        data-name="Billetterie du Louvre"
+                        data-description="Votre commande #{{ order.id }}"
+                        data-locale="auto"
+                        data-currency="eur">
+                </script>
+            </form>
         </div>
+
     </div>
     {% block javascripts %}
     {% endblock %}

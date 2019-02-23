@@ -115,6 +115,8 @@ class BookingController extends Controller {
             return $this->redirectToRoute('oc_booking_homepage');
         }
 
+        \Stripe\Stripe::setApiKey('sk_test_I6LUeBdgSM4bsBN5MsCXw0yo');
+
          $tickets = $this->getDoctrine()
             ->getManager()
             ->getRepository('OCBookingBundle:Ticket')
