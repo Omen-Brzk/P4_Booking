@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang=fr>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Votre réservation {{ order.bookingToken }}</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="d-block p-2 bg-primary text-white">Votre réservation</div>
+                    <div class="card-body">
+                        <p> Identifiant de réservation #{{ order.id }}</p>
+                        <p>Code de réservation : {{ order.bookingToken }}</p>
+                        <p>Date de réservation : Le {{ order.bookingDate | date('d/m/Y') }}</p>
+                        <p>Date de la visite : {{ order.visitDate| date('d/m/Y à H:i') }}</p>
+                        <p>Email renseigné : {{ order.email }}</p>
+                        <p>Nombre de tickets : {{ order.nbTickets }}</p>
+                        <p>Type de réservation : {% if order.visitType == false %}
+                                {{ 'billet Demi-Journée' }}
+                            {% else %}
+                                {{ 'billet Journée' }}
+                            {% endif %}</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+</body>
+</html>

@@ -8,8 +8,14 @@
 
 namespace OC\BookingBundle\Controller;
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use OC\BookingBundle\Entity\Ticket;
 use OC\BookingBundle\Form\TicketType;
+use Stripe\Error\Api;
+use Stripe\Error\Card;
+use Stripe\Stripe;
+use Stripe\Charge;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
@@ -115,12 +121,55 @@ class BookingController extends Controller {
             return $this->redirectToRoute('oc_booking_homepage');
         }
 
-        \Stripe\Stripe::setApiKey('sk_test_I6LUeBdgSM4bsBN5MsCXw0yo');
-
          $tickets = $this->getDoctrine()
             ->getManager()
             ->getRepository('OCBookingBundle:Ticket')
             ->myFinder($id);
+
+        \Stripe\Stripe::setApiKey('sk_test_I6LUeBdgSM4bsBN5MsCXw0yo'); //Stripe API key
+
+        if($request->isMethod('POST'))
+        {
+           $em = $this->getDoctrine()->getManager();
+
+           $token = $request->request->get('stripeToken');
+           $email = $request->request->get('stripeEmail');
+           $total = $request->request->get('total');
+
+           try {
+               $charge = \Stripe\Charge::create(array(
+                   "amount" => $total * 100,
+                   "currency" => "eur",
+                   "source" => $token,
+                   "description" => 'Paiement Stripe de' .$total .'€ pour la réservation #' . $booking->getId() . '/' . $booking->getBookingToken()
+               ));
+
+               //Save charge in charges.log file
+               $logger = new Logger('charge');
+               $logger->pushHandler(new StreamHandler('./var/logs/charges.log', Logger::NOTICE));
+               $logger->addNotice('Contenu ' . $charge);
+
+               //preparing E-mail
+               $message = \Swift_Message::newInstance()
+                   ->setSubject('Musée du Louvre - Votre réservation [' .$booking->getBookingToken(). ']')
+                   ->setFrom('reservation@louvre.omen-design.com')
+                   ->setTo($email)
+                   ->setContentType('text/html')
+                   ->setBody($this->renderView('@OCBooking/Email/email.html.twig', array('order' => $booking)));
+
+
+               $mailer = $this->get('mailer');
+
+               //Send mail
+               $mailer->send($message);
+           }
+
+           //Card has been declined
+           catch (\Stripe\Error\Card $e)
+           {
+               return $this->redirectToRoute('oc_booking_checkout');
+           }
+        }
 
 
         return $this->render('@OCBooking/Booking/checkout.html.twig', array(
