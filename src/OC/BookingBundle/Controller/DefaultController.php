@@ -31,4 +31,14 @@ class DefaultController extends Controller
             'form' => $form->createView(),
         ));
     }
+
+    public function mailAction($id)
+    {
+        $booking = $booking = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('OCBookingBundle:Booking')
+            ->findOneById($id);
+
+        return $this->render('@OCBooking/Email/test.html.twig', array('order' => $booking));
+    }
 }

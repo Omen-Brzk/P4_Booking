@@ -155,13 +155,19 @@ class BookingController extends Controller {
                    ->setFrom('reservation@louvre.omen-design.com')
                    ->setTo($email)
                    ->setContentType('text/html')
-                   ->setBody($this->renderView('@OCBooking/Email/email.html.twig', array('order' => $booking)));
+                   ->setBody($this->render('@OCBooking/Email/email.html.twig', array('order' => $booking)));
 
 
                $mailer = $this->get('mailer');
 
                //Send mail
                $mailer->send($message);
+
+               //Redirect to homepage after billing
+               $session = $request->getSession();
+               $session->getFlashBag()->add('billing_ok', 'Votre commande ' . $booking->getId() . ' est bien enregistrée ! 
+               Un email de confirmation a été envoyé à l\'adresse : '  . $email . '');
+               return $this->redirectToRoute('oc_booking_homepage');
            }
 
            //Card has been declined

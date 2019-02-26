@@ -13,3 +13,7 @@ oc_booking_checkout:
     defaults: { _controller: OCBookingBundle:Booking:checkout}
     requirements:
       id: \d+
+
+oc_test_mail:
+    path: /mail/{id}
+    defaults: {_controller: OCBookingBundle:Default:mail}

@@ -13,6 +13,9 @@
             {% for message in app.session.flashbag.get('error_id') %}
                 <div class="text-center alert alert-danger container">{{ message }}</div>
             {% endfor %}
+            {% for message in app.session.flashbag.get('billing_ok') %}
+                <div class="text-center alert alert-info container">{{ message }}</div>
+            {% endfor %}
             <div class="container">
                 <h1 class="text-center display-4">Réveillez votre curiosité !</h1>
                 <p class="text-center lead">
