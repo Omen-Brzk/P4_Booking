@@ -19,6 +19,7 @@ use Stripe\Charge;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
+use Mandrill;
 
 class BookingController extends Controller {
 
@@ -150,18 +151,17 @@ class BookingController extends Controller {
                $logger->addNotice('Contenu ' . $charge);
 
                //preparing E-mail
+
                $message = \Swift_Message::newInstance()
                    ->setSubject('Musée du Louvre - Votre réservation [' .$booking->getBookingToken(). ']')
-                   ->setFrom('reservation@louvre.omen-design.com')
+                   ->setFrom('reservation-louvre@omen-design.com')
                    ->setTo($email)
                    ->setContentType('text/html')
                    ->setBody($this->render('@OCBooking/Email/email.html.twig', array('order' => $booking)));
 
+                $mailer = $this->get('mailer');
 
-               $mailer = $this->get('mailer');
-
-               //Send mail
-               $mailer->send($message);
+                $mailer->send($message);
 
                //Redirect to homepage after billing
                $session = $request->getSession();
