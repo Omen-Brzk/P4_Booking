@@ -39,6 +39,11 @@ class DefaultController extends Controller
             ->getRepository('OCBookingBundle:Booking')
             ->findOneById($id);
 
-        return $this->render('@OCBooking/Email/test.html.twig', array('order' => $booking));
+        $tickets = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('OCBookingBundle:Ticket')
+            ->myFinder($id);
+
+        return $this->render('@OCBooking/Email/test.html.twig', array('order' => $booking, 'tickets' => $tickets));
     }
 }

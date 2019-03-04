@@ -1,32 +1,74 @@
 <!doctype html>
-<html lang=fr>
+<html lang='fr'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="{{ asset('./../web/css/style.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>Votre réservation {{ order.bookingToken }}</title>
+    <title>Votre réservation</title>
 </head>
-<body>
+<body class="mail_template" style="margin-top: 15px">
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="d-block p-2 bg-primary text-white">Votre réservation</div>
-                <div class="card-body">
-                    <p> Identifiant de réservation #{{ order.id }}</p>
-                    <p>Code de réservation : {{ order.bookingToken }}</p>
-                    <p>Date de réservation : Le {{ order.bookingDate | date('d/m/Y') }}</p>
-                    <p>Date de la visite : {{ order.visitDate| date('d/m/Y à H:i') }}</p>
-                    <p>Email renseigné : {{ order.email }}</p>
-                    <p>Nombre de tickets : {{ order.nbTickets }}</p>
-                    <p>Type de réservation : {% if order.visitType == false %}
-                            {{ 'billet Demi-Journée' }}
-                        {% else %}
-                            {{ 'billet Journée' }}
-                        {% endif %}</p>
-                </div>
+    <div class="text-center"><img alt='logo_louvre' src="https://louvre.omen-design.com/web/img/logo_mail.svg.png"></div>
+    <div class="jumbotron">
+        <h1 class="text-center display-4">Votre commande</h1>
+        <p class="text-center lead">
+            Merci à vous pour votre commande, nous vous attendons très bientôt pour votre visite !
+        </p>
+    </div>
+    <div class="card">
+        <div class="d-block p-2 bg-primary text-white">Votre réservation</div>
+        <div class="alert alert-info text-center">Voici les informations concernant votre commande, vous pouvez
+            présenter ce document à l'accueil du Musée.
+
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">Identifiant de réservation #{{ order.id }}</li>
+                <li class="list-group-item">Date de réservation : Le {{ order.bookingDate | date('d/m/Y') }}</li>
+                <li class="list-group-item">Date de la visite : {{ order.visitDate| date('d/m/Y à H:i') }}</li>
+                <li class="list-group-item">Email renseigné :  {{ order.email }}</li>
+                <li class="list-group-item">Nombre de tickets : {{ order.nbTickets }}</li>
+                <li class="list-group-item">Type de réservation : {% if order.visitType == false %}
+                        {{ 'billet Demi-Journée' }}
+                    {% else %}
+                        {{ 'billet Journée' }}
+                    {% endif %}</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="d-block p-2 bg-dark text-white">{% if tickets|length > 1 %}Tickets réservés
+                {% else %}
+                    Ticket réservé
+                {% endif %}</div>
+            <div class="card-body">
+                <table class="table-bordered table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Date de naissance</th>
+                        <th scope="col">Nationalité</th>
+                        <th scope="col">Tarif réduit</th>
+                        <th scope="col">Prix</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ticket in tickets %}
+                        <tr>
+                            <td>{{ ticket.lastname }}</td>
+                            <td>{{ ticket.firstname }}</td>
+                            <td id="oc_bookingbundle_birthdayDate">{{ ticket.birthdayDate| date('d/m/Y') }}</td>
+                            <td>{{ ticket.country }}</td>
+                            <td id="reducPrice">{% if ticket.reducPrice == false %}{{ 'Non' }}
+                                {% else %}
+                                    {{ 'Oui' }}
+                                {% endif %}</td>
+                            <td>{{ ticket.price }} €</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

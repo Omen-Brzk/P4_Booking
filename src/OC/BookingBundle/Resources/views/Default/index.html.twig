@@ -13,13 +13,13 @@
             {% for message in app.session.flashbag.get('error_id') %}
                 <div class="text-center alert alert-danger container">{{ message }}</div>
             {% endfor %}
-            {% for message in app.session.flashbag.get('billing_ok') %}
+            {% for message in app.flashes('billing_ok') %}
                 <div class="text-center alert alert-info container">{{ message }}</div>
             {% endfor %}
             <div class="container">
                 <h1 class="text-center display-4">Réveillez votre curiosité !</h1>
                 <p class="text-center lead">
-                    Grâce a notre nouveau sytème de réservation en ligne, fini les files d'attente interminables !
+                    Grâce a notre nouveau système de réservation en ligne, fini les files d'attente interminables !
                 </p>
                 <p class="lead text-center text-muted"> Pour commander vos billets, veuillez remplir le formulaire ci-dessous.</p>
                 <div class="form-group text-center">

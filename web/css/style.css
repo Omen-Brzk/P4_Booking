@@ -52,3 +52,7 @@ body#homep {
 select[disabled] {
     pointer-events: none;
 }
+
+body.mail_template {
+    background: linear-gradient(to right, rgb(252, 70, 107), rgb(63, 94, 251));
+}

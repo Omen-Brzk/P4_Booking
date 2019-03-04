@@ -19,7 +19,6 @@ use Stripe\Charge;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
-use Mandrill;
 
 class BookingController extends Controller {
 
@@ -131,8 +130,6 @@ class BookingController extends Controller {
 
         if($request->isMethod('POST'))
         {
-           $em = $this->getDoctrine()->getManager();
-
            $token = $request->request->get('stripeToken');
            $email = $request->request->get('stripeEmail');
            $total = $request->request->get('total');
@@ -157,15 +154,14 @@ class BookingController extends Controller {
                    ->setFrom('reservation-louvre@omen-design.com')
                    ->setTo($email)
                    ->setContentType('text/html')
-                   ->setBody($this->render('@OCBooking/Email/email.html.twig', array('order' => $booking)));
+                   ->setBody($this->renderView('@OCBooking/Email/email.html.twig', array('order' => $booking, 'tickets' => $tickets)), 'text/html', 'UTF-8');
 
                 $mailer = $this->get('mailer');
 
                 $mailer->send($message);
 
                //Redirect to homepage after billing
-               $session = $request->getSession();
-               $session->getFlashBag()->add('billing_ok', 'Votre commande ' . $booking->getId() . ' est bien enregistrée ! 
+               $this->addFlash('billing_ok', 'Votre commande ' . $booking->getId() . ' est bien enregistrée ! 
                Un email de confirmation a été envoyé à l\'adresse : '  . $email . '');
                return $this->redirectToRoute('oc_booking_homepage');
            }
