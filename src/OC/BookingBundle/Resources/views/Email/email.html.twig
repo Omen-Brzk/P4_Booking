@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang='fr'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="{{ asset('./../web/css/style.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -11,7 +8,8 @@
 </head>
 <body class="mail_template" style="margin-top: 15px">
 <div class="container">
-    <div class="text-center"><img alt='logo_louvre' src="https://louvre.omen-design.com/web/img/logo_mail.svg.png"></div>
+    <a href="{{ path('oc_test_mail', {'id' : order.id}) }}">Le mail ne s'affiche pas correctement ? Cliquez ici</a>
+    <div class="text-center"><img alt='logo_louvre' src="https://louvre.omen-design.com/web/img/logo_mail_dark.png"></div>
     <div class="jumbotron">
         <h1 class="text-center display-4">Votre commande</h1>
         <p class="text-center lead">
@@ -72,6 +70,15 @@
                     {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            <div class="jumbotron jumbotron-fluid text-center">
+                <div class="container">
+                    <h1 class="display-4">Votre code de réservation</h1>
+                    <p class="lead">Nous vous invitons à présenter ce code unique à l'entrée du Musée
+                        pour authentifier votre commande !</p>
+                    <hr>
+                    <p class="display-4"><strong>{{ order.bookingToken }}</strong></p>
+                </div>
             </div>
         </div>
     </div>
