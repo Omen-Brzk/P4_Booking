@@ -252,40 +252,4 @@ class Booking
     {
         return $this->visitType;
     }
-
-    /**
-     * Add detail.
-     *
-     * @param \OC\BookingBundle\Entity\Ticket $detail
-     *
-     * @return Booking
-     */
-    public function addDetail(\OC\BookingBundle\Entity\Ticket $detail)
-    {
-        $this->details[] = $detail;
-
-        return $this;
-    }
-
-    /**
-     * Remove detail.
-     *
-     * @param \OC\BookingBundle\Entity\Ticket $detail
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removeDetail(\OC\BookingBundle\Entity\Ticket $detail)
-    {
-        return $this->details->removeElement($detail);
-    }
-
-    /**
-     * Get details.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDetails()
-    {
-        return $this->details;
-    }
 }
